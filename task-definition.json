@@ -1,48 +1,28 @@
 {
-    "requiresCompatibilities": [
-        "EC2"
-    ],
-    "inferenceAccelerators": [],
+    "family": "pipeline-service-task-definition",
     "containerDefinitions": [
         {
-            "name": "sample-node-container",
-            "image": "848213930039.dkr.ecr.us-east-2.amazonaws.com/aws-sample-nodejs-app:latest",
-            "memory": "256",
-            "resourceRequirements": null,
+            "name": "test",
+            "image": "272133924862.dkr.ecr.us-east-1.amazonaws.com/pipeline-service-ecr:latest",
+            "cpu": 0,
+            "portMappings": [],
             "essential": true,
-            "portMappings": [
-                {
-                    "hostPort": "80",
-                    "containerPort": "3000",
-                    "protocol": "tcp"
-                }
-            ],
-            "environment": [
-                {
-                    "name": "MYSECRET",
-                    "value": "my-aws-super-secret"
-                }
-            ],
-            "secrets": null,
-            "mountPoints": null,
-            "volumesFrom": null,
-            "hostname": null,
-            "user": null,
-            "workingDirectory": null,
-            "extraHosts": null,
-            "logConfiguration": null,
-            "ulimits": null,
-            "dockerLabels": null,
-            "dependsOn": null,
-            "repositoryCredentials": {
-                "credentialsParameter": ""
-            }
+            "environment": [],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": []
         }
     ],
-    "volumes": [],
-    "networkMode": null,
-    "memory": null,
-    "cpu": null,
-    "placementConstraints": [],
-    "family": "demo-node-task-definition"
+    "executionRoleArn": "arn:aws:iam::272133924862:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "1024",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    }
 }
