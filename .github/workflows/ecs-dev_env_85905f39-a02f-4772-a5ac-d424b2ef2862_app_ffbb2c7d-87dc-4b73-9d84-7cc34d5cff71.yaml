@@ -89,7 +89,7 @@ jobs:
         with:
           task-definition: ${{ env.TASK_DEFINITION_JSON_FILE_PATH }}
           container-name: ${{ env.DEPLOYMENT_CONTAINER_NAME }}
-          image: '272133924862.dkr.ecr.us-east-1.amazonaws.com/pipeline-service-ecr/5dbdb6b29a79ae940f24cd33832688c8ea8126ad'
+          image: ${{ env.IMAGE_NAME }}
       - name: Deploy Amazon ECS task definition
         uses: >-
           aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
