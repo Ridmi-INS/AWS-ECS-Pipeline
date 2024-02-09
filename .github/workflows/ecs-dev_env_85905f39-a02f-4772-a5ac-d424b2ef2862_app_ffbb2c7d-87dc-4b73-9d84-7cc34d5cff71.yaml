@@ -7,7 +7,7 @@ name: >-
       - master
   workflow_dispatch: {}
   repository_dispatch:
-    types: pipeline_9be4ddce-d15a-4629-a14c-5e501d8a840b
+    types: pipeline_85d493ea-276f-4015-8dda-9c4ae8fcd00e
 env:
   ENCODED_PIPELINE_SECRET: >-
     ${{secrets.AWSECSPIPELINE_ENV_85905F39A02F4772A5ACD424B2EF2862_APP_FFBB2C7D87DC4B739D847CC34D5CFF71_ECSDEV_ENV_85905F39A02F4772A5ACD424B2EF2862_APP_FFBB2C7D87DC4B739D847CC34D5CFF71}}
@@ -17,7 +17,6 @@ env:
   DOCKER_FILE_PATH: ./Dockerfile
   DOCKER_BUILD_CONTEXT: .
   REPOSITORY_NAME: pipeline-service-ecs-deployment-role
-  # TASK_DEFINITION_JSON_FILE_PATH: ./task-definition.json
   DEPLOYMENT_CONTAINER_NAME: test
   ECS_CLUSTER: pipeline-service-ecs-cluster
   ECS_SERVICE: pipeline-service
@@ -38,7 +37,7 @@ jobs:
       - name: 'Run :: Checkout Specific Commit'
         if: ${{ github.event.client_payload.commitId != null }}
         run: git checkout ${{ github.event.client_payload.commitId }}
-      - name: 'Run :: Decoding Secrets ab299645-af4a-45e7-90c5-0c118f40f2b1'
+      - name: 'Run :: Decoding Secrets 84bf19bc-de6b-45a6-b2dc-26c79385c51f'
         run: |2-
 
                   if [ ! -x "$(command -v jq)" ]; then
@@ -48,7 +47,7 @@ jobs:
                   fi
                   echo "${{ env.ENCODED_PIPELINE_SECRET }}" | base64 --decode | jq -r 'to_entries[] | "\(.key)=\(.value)"' | while read line; do echo "$line" >> $GITHUB_ENV; echo "::add-mask::${line#*=}"; done
                 
-      - name: 'Run :: Configure AWS credentials 40f90d32-c03b-4895-8b21-999517060950'
+      - name: 'Run :: Configure AWS credentials 7d6d62df-bf88-46e6-be22-63bb4ab7878c'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.roleARN }}
@@ -83,116 +82,33 @@ jobs:
       - name: 'Run :: Build, tag, and push image'
         run: docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         if: ${{ env.STEPS_CAN_PROCEED == 'true' }}
-      - name: Fetch Task Definition
+      - name: 'Run :: Fetch Task Definition'
         id: fetch-task-def
-        run: |
-          # Replace 'your-task-definition-arn' with the actual ARN of your ECS task definition
-          task_definition_arn="arn:aws:ecs:us-east-1:272133924862:task-definition/pipeline-service-task-definition:17"
-
-          # Use AWS CLI to describe the task definition and extract JSON details
-          task_definition_json=$(aws ecs describe-task-definition --task-definition $task_definition_arn --query 'taskDefinition' --output json)
-
-          # Save the JSON details to a file
-          echo "$task_definition_json" > task-definition.json
-          
-          # Remove specific fields using jq
-          echo "$task_definition_json" | jq 'del(
-            .taskDefinitionArn,
-            .requiresAttributes,
-            .compatibilities,
-            .revision,
-            .status,
-            .registeredAt,
-            .registeredBy
-          )' > task-definition.json
-          
-          echo "listing files"
-          ls
-      # - name: Create ECS Task Definition
-      #   id: create-task-def
-      #   run: |
-      #     json_output=$(aws ecs register-task-definition --family new-task-definition --cpu 512 --memory 1024 --network-mode "awsvpc" --requires-compatibilities "FARGATE" --execution-role-arn ${{ secrets.EXECUTION_ROLE_ARN }} --cli-input-json "$(cat <<EOF
-      #     {
-      #       "containerDefinitions": [
-      #         {
-      #           "name": "test",
-      #           "image": "272133924862.dkr.ecr.us-east-1.amazonaws.com/pipeline-service-ecr:latest",
-      #           "cpu": 0,
-      #           "portMappings": [],
-      #           "essential": true,
-      #           "environment": [],
-      #           "environmentFiles": [],
-      #           "mountPoints": [],
-      #           "volumesFrom": [],
-      #           "ulimits": []
-      #         }
-      #       ]
-      #     }
-      #     EOF
-      #     )")
-          
-      #     # Extract the content inside "taskDefinition" using jq
-      #     task_def_content=$(echo "$json_output" | jq -r '.taskDefinition')
-
-      #     # Remove specific fields using jq
-      #     echo "$task_def_content" | jq 'del(
-      #       .requiresAttributes,
-      #       .compatibilities,
-      #       .revision,
-      #       .status,
-      #       .registeredAt,
-      #       .registeredBy
-      #     )' > myJson.json
-    
-      #     # Save the extracted content to a file
-      #     # echo "$task_def_content" > myJson.json
-      #     # echo "$json_output" > myJson.json
-      #     echo "listing files"
-      #     ls
-      #     # echo "$json_output" > task-definition-output.json
-      #     # echo "TASK_DEFINITION_JSON_FILE_PATH=task-definition-output.json" >> $GITHUB_ENV
-
-      - name: testing
-        run: cat task-definition.json
-
+        run: >-
+          task_definition_json=$(aws ecs describe-task-definition
+          --task-definition ${{ env.TASK_DEFINITION_ARN }} --query
+          'taskDefinition' --output json)
+                # Save the JSON details to a file
+                echo "$task_definition_json" > task-definition.json
+                
+                # Remove specific fields using jq
+                echo "$task_definition_json" | jq 'del(
+                  .taskDefinitionArn,
+                  .requiresAttributes,
+                  .compatibilities,
+                  .revision,
+                  .status,
+                  .registeredAt,
+                  .registeredBy
+                )' > task-definition.json
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
+        uses: >-
+          aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
         with:
-          task-definition: 'task-definition.json'
+          task-definition: task-definition.json
           container-name: ${{ env.DEPLOYMENT_CONTAINER_NAME }}
           image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-      # # - name: 'Run :: Create ECS Task Definition'
-      # #   run: |
-      # #     aws ecs register-task-definition --family new-task-definition --cpu 512 --memory 1024 --network-mode "awsvpc" --requires-compatibilities "FARGATE" --execution-role-arn "arn:aws:iam::272133924862:role/ecsTaskExecutionRole" --cli-input-json "$(cat <<EOF
-      # #     {
-      # #       "containerDefinitions": [
-      # #         {
-      # #           "name": "test",
-      # #           "image": "272133924862.dkr.ecr.us-east-1.amazonaws.com/pipeline-service-ecr:latest",
-      # #           "cpu": 0,
-      # #           "portMappings": [],
-      # #           "essential": true,
-      # #           "environment": [],
-      # #           "environmentFiles": [],
-      # #           "mountPoints": [],
-      # #           "volumesFrom": [],
-      # #           "ulimits": []
-      # #         }
-      # #       ]
-      # #     }
-      # #     EOF
-      # #     )"
-
-      
-      # # - name: Fill in the new image ID in the Amazon ECS task definition
-      # #   id: task-def
-      # #   uses: >-
-      # #     aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
-      # #   with:
-      # #     task-definition: ${{ env.TASK_DEFINITION_JSON_FILE_PATH }}
-      # #     container-name: ${{ env.DEPLOYMENT_CONTAINER_NAME }}
-      # #     image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
       - name: Deploy Amazon ECS task definition
         uses: >-
           aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
