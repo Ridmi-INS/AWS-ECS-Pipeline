@@ -17,7 +17,7 @@ env:
   DOCKER_FILE_PATH: ./Dockerfile
   DOCKER_BUILD_CONTEXT: .
   REPOSITORY_NAME: pipeline-service-ecs-deployment-role
-  TASK_DEFINITION_JSON_FILE_PATH: ./task-definition.json
+  # TASK_DEFINITION_JSON_FILE_PATH: ./task-definition.json
   DEPLOYMENT_CONTAINER_NAME: test
   ECS_CLUSTER: pipeline-service-ecs-cluster
   ECS_SERVICE: pipeline-service
