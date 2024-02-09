@@ -111,7 +111,6 @@ jobs:
 
           # Remove specific fields using jq
           echo "$task_def_content" | jq 'del(
-            .taskDefinitionArn,
             .requiresAttributes,
             .compatibilities,
             .revision,
