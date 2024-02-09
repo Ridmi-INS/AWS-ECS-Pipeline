@@ -85,9 +85,7 @@ jobs:
         if: ${{ env.STEPS_CAN_PROCEED == 'true' }}
       - name: 'Run :: Create ECS Task Definition'
         run: |
-          aws ecs register-task-definition \
-            --family check-task-definition \
-            --cli-input-json "$(cat <<EOF
+          aws ecs register-task-definition --family check-task-definition --cli-input-json "$(cat <<EOF
               {
                 "containerDefinitions": [
                   {
