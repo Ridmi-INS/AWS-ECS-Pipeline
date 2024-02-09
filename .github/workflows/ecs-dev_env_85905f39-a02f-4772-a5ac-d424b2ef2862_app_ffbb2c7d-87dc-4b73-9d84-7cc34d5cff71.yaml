@@ -104,7 +104,7 @@ jobs:
             .status,
             .registeredAt,
             .registeredBy
-          )' > updated-task-definition.json
+          )' > task-definition.json
           
           echo "listing files"
           ls
