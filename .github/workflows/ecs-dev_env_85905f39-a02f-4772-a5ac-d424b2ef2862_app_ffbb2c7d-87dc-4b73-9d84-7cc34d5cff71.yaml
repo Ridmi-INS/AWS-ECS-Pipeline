@@ -94,6 +94,18 @@ jobs:
 
           # Save the JSON details to a file
           echo "$task_definition_json" > task-definition.json
+          
+          # Remove specific fields using jq
+          echo "$task_def_content" | jq 'del(
+            .taskDefinitionArn,
+            .requiresAttributes,
+            .compatibilities,
+            .revision,
+            .status,
+            .registeredAt,
+            .registeredBy
+          )' > task-definition.json
+          
           echo "listing files"
           ls
       # - name: Create ECS Task Definition
