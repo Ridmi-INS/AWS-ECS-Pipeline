@@ -155,13 +155,13 @@ jobs:
       - name: testing
         run: cat task-definition.json
 
-      # - name: Fill in the new image ID in the Amazon ECS task definition
-      #   id: task-def
-      #   uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
-      #   with:
-      #     task-definition: 'myJson.json'
-      #     container-name: ${{ env.DEPLOYMENT_CONTAINER_NAME }}
-      #     image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
+        with:
+          task-definition: 'task-definition.json'
+          container-name: ${{ env.DEPLOYMENT_CONTAINER_NAME }}
+          image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
       # # - name: 'Run :: Create ECS Task Definition'
       # #   run: |
       # #     aws ecs register-task-definition --family new-task-definition --cpu 512 --memory 1024 --network-mode "awsvpc" --requires-compatibilities "FARGATE" --execution-role-arn "arn:aws:iam::272133924862:role/ecsTaskExecutionRole" --cli-input-json "$(cat <<EOF
@@ -193,11 +193,11 @@ jobs:
       # #     task-definition: ${{ env.TASK_DEFINITION_JSON_FILE_PATH }}
       # #     container-name: ${{ env.DEPLOYMENT_CONTAINER_NAME }}
       # #     image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-      # - name: Deploy Amazon ECS task definition
-      #   uses: >-
-      #     aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
-      #   with:
-      #     task-definition: ${{ steps.task-def.outputs.task-definition }}
-      #     service: ${{ env.ECS_SERVICE }}
-      #     cluster: ${{ env.ECS_CLUSTER }}
-      #     wait-for-service-stability: true
+      - name: Deploy Amazon ECS task definition
+        uses: >-
+          aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
