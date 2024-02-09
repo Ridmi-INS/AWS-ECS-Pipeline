@@ -27,6 +27,7 @@
         }
     ],
     "placementConstraints": [],
+    "networkMode": "awsvpc",
     "compatibilities": [
         "EXTERNAL",
         "EC2"
