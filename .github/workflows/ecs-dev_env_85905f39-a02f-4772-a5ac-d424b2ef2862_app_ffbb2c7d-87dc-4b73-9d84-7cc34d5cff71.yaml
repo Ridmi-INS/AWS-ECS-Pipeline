@@ -89,18 +89,18 @@ jobs:
             --family check-task-definition \
             --cli-input-json "$(cat <<EOF
               {
-                "containerDefinitions": [
+                \"containerDefinitions\": [
                   {
-                    "name": "test",
-                    "image": "272133924862.dkr.ecr.us-east-1.amazonaws.com/pipeline-service-ecr:latest",
-                    "cpu": 0,
-                    "portMappings": [],
-                    "essential": true,
-                    "environment": [],
-                    "environmentFiles": [],
-                    "mountPoints": [],
-                    "volumesFrom": [],
-                    "ulimits": []
+                    \"name\": \"test\",
+                    \"image\": "272133924862.dkr.ecr.us-east-1.amazonaws.com/pipeline-service-ecr:latest",
+                    \"cpu\": 0,
+                    \"portMappings\": [],
+                    \"essential\": true,
+                    \"environment\": [],
+                    \"environmentFiles\": [],
+                    \"mountPoints\": [],
+                    \"volumesFrom\": [],
+                    \"ulimits\": []
                   }
                 ]
               }
