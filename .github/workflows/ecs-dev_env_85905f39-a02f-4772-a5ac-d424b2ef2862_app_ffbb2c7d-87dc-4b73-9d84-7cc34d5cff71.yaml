@@ -96,7 +96,7 @@ jobs:
           echo "$task_definition_json" > task-definition.json
           
           # Remove specific fields using jq
-          echo "$task_def_content" | jq 'del(
+          echo "$task_definition_json" | jq 'del(
             .taskDefinitionArn,
             .requiresAttributes,
             .compatibilities,
@@ -104,7 +104,7 @@ jobs:
             .status,
             .registeredAt,
             .registeredBy
-          )' > task-definition.json
+          )' > updated-task-definition.json
           
           echo "listing files"
           ls
