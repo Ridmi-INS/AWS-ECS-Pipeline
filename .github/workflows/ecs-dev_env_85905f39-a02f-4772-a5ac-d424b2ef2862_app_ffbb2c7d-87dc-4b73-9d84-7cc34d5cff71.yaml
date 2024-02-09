@@ -83,40 +83,40 @@ jobs:
       - name: 'Run :: Build, tag, and push image'
         run: docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         if: ${{ env.STEPS_CAN_PROCEED == 'true' }}
-      - name: 'Run :: Create ECS Task Definition'
-        run: |
-          aws ecs register-task-definition --family check-task-definition --cpu 512 --memory 1024 --cli-input-json "$(cat <<EOF
-          {
-            "containerDefinitions": [
-              {
-                "name": "test",
-                "image": "272133924862.dkr.ecr.us-east-1.amazonaws.com/pipeline-service-ecr:latest",
-                "cpu": 0,
-                "portMappings": [],
-                "essential": true,
-                "environment": [],
-                "environmentFiles": [],
-                "mountPoints": [],
-                "volumesFrom": [],
-                "ulimits": []
-              }
-            ]
-          }
-          EOF
-          )"
-      # - name: Fill in the new image ID in the Amazon ECS task definition
-      #   id: task-def
-      #   uses: >-
-      #     aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
-      #   with:
-      #     task-definition: ${{ env.TASK_DEFINITION_JSON_FILE_PATH }}
-      #     container-name: ${{ env.DEPLOYMENT_CONTAINER_NAME }}
-      #     image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-      # - name: Deploy Amazon ECS task definition
-      #   uses: >-
-      #     aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
-      #   with:
-      #     task-definition: ${{ steps.task-def.outputs.task-definition }}
-      #     service: ${{ env.ECS_SERVICE }}
-      #     cluster: ${{ env.ECS_CLUSTER }}
-      #     wait-for-service-stability: true
+      # - name: 'Run :: Create ECS Task Definition'
+      #   run: |
+      #     aws ecs register-task-definition --family check-task-definition --cpu 512 --memory 1024 --cli-input-json "$(cat <<EOF
+      #     {
+      #       "containerDefinitions": [
+      #         {
+      #           "name": "test",
+      #           "image": "272133924862.dkr.ecr.us-east-1.amazonaws.com/pipeline-service-ecr:latest",
+      #           "cpu": 0,
+      #           "portMappings": [],
+      #           "essential": true,
+      #           "environment": [],
+      #           "environmentFiles": [],
+      #           "mountPoints": [],
+      #           "volumesFrom": [],
+      #           "ulimits": []
+      #         }
+      #       ]
+      #     }
+      #     EOF
+      #     )"
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: >-
+          aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
+        with:
+          task-definition: ${{ env.TASK_DEFINITION_JSON_FILE_PATH }}
+          container-name: ${{ env.DEPLOYMENT_CONTAINER_NAME }}
+          image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+      - name: Deploy Amazon ECS task definition
+        uses: >-
+          aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
