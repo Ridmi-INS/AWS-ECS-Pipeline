@@ -105,15 +105,17 @@ jobs:
           }
           EOF
           )")
-          
-          echo "$json_output" > task-definition-output.json
-          echo "TASK_DEFINITION_JSON_FILE_PATH=task-definition-output.json" >> $GITHUB_ENV
+          echo "$json_output" > myJson.json
+          echo "listing files"
+          ls
+          # echo "$json_output" > task-definition-output.json
+          # echo "TASK_DEFINITION_JSON_FILE_PATH=task-definition-output.json" >> $GITHUB_ENV
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
         with:
-          task-definition: ${{ env.TASK_DEFINITION_JSON_FILE_PATH }}
+          task-definition: 'myJson.json'
           container-name: ${{ env.DEPLOYMENT_CONTAINER_NAME }}
           image: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
       # - name: 'Run :: Create ECS Task Definition'
