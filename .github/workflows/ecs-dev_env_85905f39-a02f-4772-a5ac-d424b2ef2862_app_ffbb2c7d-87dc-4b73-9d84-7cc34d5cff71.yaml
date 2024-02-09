@@ -111,7 +111,7 @@ jobs:
     
           # Save the extracted content to a file
           echo "$task_def_content" > myJson.json
-          echo "$json_output" > myJson.json
+          # echo "$json_output" > myJson.json
           echo "listing files"
           ls
           # echo "$json_output" > task-definition-output.json
