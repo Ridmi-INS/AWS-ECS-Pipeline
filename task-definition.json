@@ -1,5 +1,5 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:272133924862:task-definition/check-task-definition:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:272133924862:task-definition/new-task-definition:1",
     "containerDefinitions": [
         {
             "name": "test",
@@ -14,7 +14,9 @@
             "ulimits": []
         }
     ],
-    "family": "check-task-definition",
+    "family": "new-task-definition",
+    "executionRoleArn": "arn:aws:iam::272133924862:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
     "revision": 1,
     "volumes": [],
     "status": "ACTIVE",
@@ -23,18 +25,26 @@
             "name": "com.amazonaws.ecs.capability.ecr-auth"
         },
         {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
             "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
         }
     ],
     "placementConstraints": [],
-    "networkMode": "awsvpc",
     "compatibilities": [
-        "EXTERNAL",
-        "EC2"
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
     ],
     "cpu": "512",
     "memory": "1024",
-    "registeredAt": "2024-02-09T06:00:07.850Z",
+    "registeredAt": "2024-02-09T06:34:13.069Z",
     "registeredBy": "arn:aws:sts::272133924862:assumed-role/pipeline-service-ecs-deployment-role/skyu-pipeline-assume-role-session",
     "tags": []
 }
