@@ -111,6 +111,9 @@ jobs:
           # echo "$json_output" > task-definition-output.json
           # echo "TASK_DEFINITION_JSON_FILE_PATH=task-definition-output.json" >> $GITHUB_ENV
 
+      - name: testing
+        run: cat myJson.json
+
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
