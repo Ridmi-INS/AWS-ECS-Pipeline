@@ -85,7 +85,7 @@ jobs:
         if: ${{ env.STEPS_CAN_PROCEED == 'true' }}
       - name: 'Run :: Create ECS Task Definition'
         run: |
-          aws ecs register-task-definition --family check-task-definition --cpu 512 --memory 1024 --network-mode "awsvpc" --requires-compatibilities "FARGATE" --execution-role-arn "arn:aws:iam::272133924862:role/ecsTaskExecutionRole" --cli-input-json "$(cat <<EOF
+          aws ecs register-task-definition --family new-task-definition --cpu 512 --memory 1024 --network-mode "awsvpc" --requires-compatibilities "FARGATE" --execution-role-arn "arn:aws:iam::272133924862:role/ecsTaskExecutionRole" --cli-input-json "$(cat <<EOF
           {
             "containerDefinitions": [
               {
