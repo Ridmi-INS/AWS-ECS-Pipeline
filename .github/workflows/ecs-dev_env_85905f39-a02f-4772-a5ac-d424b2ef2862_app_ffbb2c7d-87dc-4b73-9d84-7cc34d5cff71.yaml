@@ -110,7 +110,7 @@ jobs:
           task_def_content=$(echo "$json_output" | jq -r '.taskDefinition')
 
           # Remove specific fields using jq
-          echo "$json_output" | jq 'del(
+          echo "$task_def_content" | jq 'del(
             .taskDefinitionArn,
             .requiresAttributes,
             .compatibilities,
