@@ -86,7 +86,7 @@ jobs:
       - name: Create ECS Task Definition
         id: create-task-def
         run: |
-          json_output=$(aws ecs register-task-definition --family new-task-definition --cpu 512 --memory 1024 --network-mode "awsvpc" --requires-compatibilities "FARGATE" --execution-role-arn "arn:aws:iam::272133924862:role/ecsTaskExecutionRole" --cli-input-json "$(cat <<EOF
+          json_output=$(aws ecs register-task-definition --family new-task-definition --cpu 512 --memory 1024 --network-mode "awsvpc" --requires-compatibilities "FARGATE" --execution-role-arn ${{ secrets.EXECUTION_ROLE_ARN }} --cli-input-json "$(cat <<EOF
           {
             "containerDefinitions": [
               {
