@@ -108,6 +108,17 @@ jobs:
           
           # Extract the content inside "taskDefinition" using jq
           task_def_content=$(echo "$json_output" | jq -r '.taskDefinition')
+
+          # Remove specific fields using jq
+          echo "$json_output" | jq 'del(
+            .taskDefinitionArn,
+            .requiresAttributes,
+            .compatibilities,
+            .revision,
+            .status,
+            .registeredAt,
+            .registeredBy
+          )' > myJson.json
     
           # Save the extracted content to a file
           echo "$task_def_content" > myJson.json
