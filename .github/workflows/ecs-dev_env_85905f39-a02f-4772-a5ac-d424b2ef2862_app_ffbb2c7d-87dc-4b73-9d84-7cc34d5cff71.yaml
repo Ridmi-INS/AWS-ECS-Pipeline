@@ -105,6 +105,12 @@ jobs:
           }
           EOF
           )")
+          
+          # Extract the content inside "taskDefinition" using jq
+          task_def_content=$(echo "$json_output" | jq -r '.taskDefinition')
+    
+          # Save the extracted content to a file
+          echo "$task_def_content" > myJson.json
           echo "$json_output" > myJson.json
           echo "listing files"
           ls
