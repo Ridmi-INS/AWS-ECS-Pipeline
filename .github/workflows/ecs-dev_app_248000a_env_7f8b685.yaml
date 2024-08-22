@@ -10,7 +10,7 @@ name: ecs-dev_app_248000a_env_7f8b685 Pipeline (Skyu Generated)
       - README.md
   workflow_dispatch: {}
   repository_dispatch:
-    types: pipeline_8bc30b43-4e91-4144-b86b-8e8d7ed49fd6
+    types: pipeline_f8ef09d2-2c3c-412c-8fc3-28388f017915
 env:
   ENCODED_PIPELINE_SECRET: ${{secrets.AWSECSPIPELINE_ECSDEV_APP_248000A_ENV_7F8B685}}
   COMMIT_ID: ${{github.event.client_payload.commitId || github.sha || github.run_id}}
@@ -279,7 +279,7 @@ jobs:
           aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
         with:
           task-definition: task-definition.json
-          container-name: ${{ env.DEPLOYMENT_CONTAINER_NAME }}
+          container-name: ${{ env.ECS_CONTAINER_NAME }}
           image: ${{ env.IMAGE_NAME }}:${{ env.COMMIT_ID }}
       - name: 'Run :: Deploy Amazon ECS task definition'
         uses: >-
