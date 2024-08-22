@@ -10,7 +10,7 @@ name: ecs-dev_app_248000a_env_7f8b685 Pipeline (Skyu Generated)
       - README.md
   workflow_dispatch: {}
   repository_dispatch:
-    types: pipeline_507e146c-84d8-438e-b476-447385c1334e
+    types: pipeline_96569d57-5d37-476e-9d61-e2cc7fa0b696
 env:
   ENCODED_PIPELINE_SECRET: ${{secrets.AWSECSPIPELINE_ECSDEV_APP_248000A_ENV_7F8B685}}
   COMMIT_ID: ${{github.event.client_payload.commitId || github.sha || github.run_id}}
