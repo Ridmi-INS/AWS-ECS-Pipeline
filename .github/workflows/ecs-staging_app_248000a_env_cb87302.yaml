@@ -1,4 +1,4 @@
-name: ecs-dev_app_248000a_env_7f8b685 Pipeline (Skyu Generated)
+name: ecs-staging_app_248000a_env_cb87302 Pipeline (Skyu Generated)
 'on':
   push:
     branches:
@@ -10,9 +10,9 @@ name: ecs-dev_app_248000a_env_7f8b685 Pipeline (Skyu Generated)
       - README.md
   workflow_dispatch: {}
   repository_dispatch:
-    types: pipeline_221531a2-dc11-402e-ba93-c74fb5565543
+    types: pipeline_c7ed6262-4764-405e-a5e2-2f8279480179
 env:
-  ENCODED_PIPELINE_SECRET: ${{secrets.AWSECSPIPELINE_ECSDEV_APP_248000A_ENV_7F8B685}}
+  ENCODED_PIPELINE_SECRET: ${{secrets.AWSECSPIPELINE_ECSSTAGING_APP_248000A_ENV_CB87302}}
   COMMIT_ID: ${{github.event.client_payload.commitId || github.sha || github.run_id}}
   BRANCH_NAME: >-
     ${{github.event.client_payload.branchName || github.event.branch ||
